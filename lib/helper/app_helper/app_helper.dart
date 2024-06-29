@@ -1,12 +1,11 @@
 import 'dart:convert';
-
 import 'package:weatherapp_withgetx/modal/app_citymodal.dart';
 import 'package:http/http.dart' as http;
 import '../../modal/app_modal.dart';
 
-class WeatherHelper {
-  WeatherHelper._();
-  static final WeatherHelper _instance = WeatherHelper._();
+class ApiHelper {
+  ApiHelper._();
+  static final ApiHelper apiHelper = ApiHelper._();
 
   String ApiLink1 =
       "https://api.openweathermap.org/geo/1.0/direct?q=surat&limit=5&appid=e75e7161eea06839fed1ddb5372b3fdf";
@@ -32,6 +31,12 @@ class WeatherHelper {
     http.Response response = await http.get(
       Uri.parse("ApiLink2"),
     );
+    if (response.statusCode == 200) {
+      List Data2 = jsonDecode(response.body);
+      Data2.map(
+        (e) => WeathercityModal.fromJson(e),
+      ).toList();
+    }
     return weathercity;
   }
 }
